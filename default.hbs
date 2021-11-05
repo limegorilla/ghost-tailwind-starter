@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="{{@site.locale}}">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content='#57ff60' />
+    <link rel="stylesheet" type="text/css" href="{{asset "built/screen.css"}}" />
+
+    <title>{{meta_title}}</title>
+
+    {{ghost_head}}
+    {{!-- Outputs important meta data and settings, should always be in <head> --}}
+
+</head>
+<body class="{{body_class}}">
+<div class="gh-viewport">
+
+<header>
+    <div class="w-screen bg-primary text-black dark:text-white px-10 py-2">
+        Go back to <a href="https://limegorilla.co.uk" class="text-white dark:text-dark">limegorilla.co.uk</a>
+    </div>
+    <nav class="bg-white dark:bg-black sticky top-0">
+        <div>
+            <a class="gh-head-logo" href="{{@site.url}}">
+                {{#if @site.logo}}
+                    <img src="{{@site.logo}}" alt="{{@site.title}}" />
+                {{else}}
+                    {{@site.title}}
+                {{/if}}
+            </a>
+        </div>
+        <div>
+            {{navigation}}
+        </div>
+        <div>
+            <div>
+                {{#if @site.facebook}}
+                <a href="{{facebook_url @site.facebook}}" title="Facebook" target="_blank" rel="noopener">{{> "icons/facebook"}}</a>
+                {{/if}}
+                {{#if @site.twitter}}
+                <a href="{{twitter_url @site.twitter}}" title="Twitter" target="_blank" rel="noopener">{{> "icons/twitter"}}</a>
+                {{/if}}
+                <a href="https://feedly.com/i/subscription/feed/{{@site.url}}/rss/" title="RSS" target="_blank" rel="noopener">{{> "icons/rss"}}</a>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main class="gh-main">
+
+    {{{body}}}
+    {{!-- All content gets inserted here, index.hbs, post.hbs, etc --}}
+
+</main>
+
+<footer class="gh-foot">
+    <div class="gh-container">
+        <div class="gh-foot-menu">
+            {{navigation}}
+        </div>
+        <div class="gh-foot-meta">
+            Published with <a href="https://ghost.org" target="_blank" rel="noopener">Ghost</a>
+        </div>
+    </div>
+</footer>
+
+</div>
+
+{{!-- <foot> --}}
+
+<script src="{{asset "built/jquery-3.4.1.min.js"}}"></script>
+
+{{#if pagination.pages}}
+<script>
+    var maxPages = parseInt('{{pagination.pages}}');
+</script>
+<script src="{{asset "built/infinitescroll.js"}}"></script>
+{{/if}}
+
+<script>
+$(document).ready(function () {
+    // Mobile Menu Trigger
+    $('.gh-burger').click(function () {
+        $('body').toggleClass('gh-head-open');
+    });
+});
+</script>
+
+{{#is "post, page"}}
+<script src="{{asset "built/jquery.fitvids.js"}}"></script>
+<script>
+var images = document.querySelectorAll('.kg-gallery-image img');
+images.forEach(function (image) {
+    var container = image.closest('.kg-gallery-image');
+    var width = image.attributes.width.value;
+    var height = image.attributes.height.value;
+    var ratio = width / height;
+    container.style.flex = ratio + ' 1 0%';
+});
+$(document).ready(function () {
+    var $postContent = $(".gh-content");
+    $postContent.fitVids();
+});
+</script>
+{{/is}}
+
+{{ghost_foot}}
+{{!-- Outputs important scripts - should always be included before closing body tag --}}
+
+</body>
+</html>
